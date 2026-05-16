@@ -5,994 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Ti ❤️</title>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com">
-    </script>
-
-    <!-- Fuentes Google -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --pink: #ff4da6;
-            --purple: #8b5cf6;
-            --dark: #0a0a0a;
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
         }
 
-        * {
-            font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
-            box-sizing: border-box;
+        body{
+            overflow:hidden;
+            background:black;
+            font-family:Arial, sans-serif;
         }
 
-        body {
-            margin: 0;
-            background: #050508;
-            color: white;
-            overflow-x: hidden;
-            cursor: default;
+        canvas{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            opacity:0;
+            transition:1s;
+            z-index:1;
         }
 
-        /* Fondos con glow animado */
-        .bg-glow {
-            position: fixed;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            filter: blur(150px);
-            z-index: -2;
-            opacity: 0.25;
-            pointer-events: none;
-            animation: breathe 8s ease-in-out infinite;
-        }
-        .glow1 {
-            background: #ff4da6;
-            top: -200px;
-            left: -150px;
-            animation-delay: 0s;
-        }
-        .glow2 {
-            background: #8b5cf6;
-            bottom: -200px;
-            right: -150px;
-            animation-delay: -4s;
-        }
-        .glow3 {
-            background: #f97316;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: -6s;
-            opacity: 0.12;
-            width: 400px;
-            height: 400px;
+        /* Pantalla inicial */
+        .start-screen{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            background:linear-gradient(135deg, #000, #250012);
+            z-index:10;
         }
 
-        @keyframes breathe {
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 0.25;
-            }
-            50% {
-                transform: scale(1.25);
-                opacity: 0.4;
-            }
+        .start-screen h1{
+            color:white;
+            margin-bottom:20px;
+            font-size:2rem;
+            text-align:center;
+            padding:20px;
         }
 
-        /* Tarjeta con glassmorphism */
-        .card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            padding: 1px;
-            background: linear-gradient(135deg,
-                    rgba(255, 255, 255, 0.15) 0%,
-                    transparent 40%,
-                    transparent 60%,
-                    rgba(255, 255, 255, 0.08) 100%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-        }
-        .card:hover {
-            transform: translateY(-12px) scale(1.025);
-            box-shadow:
-                0 25px 60px rgba(255, 77, 166, 0.25),
-                0 8px 20px rgba(139, 92, 246, 0.2);
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.07);
+        .start-btn{
+            padding:15px 40px;
+            border:none;
+            border-radius:50px;
+            background:#ff2d75;
+            color:white;
+            font-size:1.2rem;
+            cursor:pointer;
+            transition:0.3s;
+            box-shadow:0 0 20px rgba(255,45,117,.5);
         }
 
-        /* Barra de progreso de música */
-        .music-bar {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 16px;
-            cursor: pointer;
-            position: relative;
+        .start-btn:hover{
+            transform:scale(1.08);
         }
-        .music-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #ff4da6, #c084fc, #8b5cf6);
-            border-radius: 10px;
-            transition: width 0.1s linear;
-            position: relative;
-        }
-        .music-progress::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translate(50%, -50%);
-            width: 14px;
-            height: 14px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 77, 166, 0.8);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .music-bar:hover .music-progress::after {
-            opacity: 1;
-        }
+        /* Texto cinematográfico */
+.cinematic{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:black;
+    color:white;
+    font-size:clamp(2rem, 5vw, 4rem);
+    font-weight:300;
+    letter-spacing:3px;
+    text-align:center;
+    padding:20px;
+    z-index:20;
+    opacity:0;
+    transition:opacity 2s ease;
+    text-shadow:
+        0 0 20px rgba(255,255,255,.4),
+        0 0 50px rgba(255,100,150,.3);
+}
 
-        /* Corazones flotantes */
-        .heart-particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: -1;
-            animation: floatUp linear infinite;
-            opacity: 0;
-            filter: blur(0.5px);
-        }
-        @keyframes floatUp {
-            0% {
-                transform: translateY(105vh) scale(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.7;
-            }
-            80% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(-15vh) scale(1.4) rotate(40deg);
-                opacity: 0;
-            }
-        }
+.cinematic.show{
+    opacity:1;
+}
 
-        /* Animación de revelación */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Mini reproductor fijo */
-        .mini-player {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 100;
-            background: rgba(15, 15, 20, 0.9);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 50px;
-            padding: 10px 20px 10px 14px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s;
-            cursor: pointer;
-            animation: slideInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .mini-player:hover {
-            box-shadow: 0 20px 50px rgba(255, 77, 166, 0.3);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-4px);
-        }
-        .mini-player.hidden {
-            display: none;
-        }
-        @keyframes slideInUp {
-            from {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        .mini-player .play-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff4da6, #8b5cf6);
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            flex-shrink: 0;
-        }
-        .mini-player .play-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(255, 77, 166, 0.6);
-        }
-        .mini-player .song-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            min-width: 0;
-        }
-        .mini-player .song-title {
-            font-weight: 600;
-            font-size: 0.85rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: #fff;
-        }
-        .mini-player .song-artist {
-            font-size: 0.7rem;
-            color: #aaa;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .mini-player .mini-progress {
-            width: 60px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .mini-player .mini-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff4da6, #8b5cf6);
-            border-radius: 10px;
-            transition: width 0.1s linear;
-        }
-
-        /* Scrollbar personalizada */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 77, 166, 0.5);
-        }
-
-        /* Botón de scroll-to-top */
-        .scroll-top-btn {
-            position: fixed;
-            bottom: 24px;
-            left: 24px;
-            z-index: 100;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: white;
-            font-size: 1.3rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-        }
-        .scroll-top-btn.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-        .scroll-top-btn:hover {
-            background: rgba(255, 77, 166, 0.2);
-            border-color: rgba(255, 77, 166, 0.4);
-            box-shadow: 0 8px 25px rgba(255, 77, 166, 0.3);
-        }
-
-        /* Efecto de ripple en botones */
-        .ripple-btn {
-            position: relative;
-            overflow: hidden;
-        }
-        .ripple-btn::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center,
-                    rgba(255, 255, 255, 0.3) 0%,
-                    transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-        .ripple-btn:hover::after {
-            opacity: 1;
-        }
-
-        /* Indicador de scroll */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounceDown 2s ease-in-out infinite;
-            cursor: pointer;
-            z-index: 10;
-        }
-        @keyframes bounceDown {
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            50% {
-                transform: translateX(-50%) translateY(18px);
-            }
-        }
-
-        /* Texto con gradiente */
-        .gradient-text {
-            background: linear-gradient(135deg, #ff4da6, #c084fc, #8b5cf6, #ff4da6);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 6s ease-in-out infinite;
-        }
-        @keyframes gradientShift {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        /* Confeti */
-        .confetti-piece {
-            position: fixed;
-            pointer-events: none;
-            z-index: 200;
-            animation: confettiFall linear forwards;
-        }
-        @keyframes confettiFall {
-            0% {
-                transform: translateY(-10vh) rotate(0deg) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(110vh) rotate(720deg) scale(0.3);
-                opacity: 0;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .card {
-                border-radius: 20px;
-            }
-            .mini-player {
-                bottom: 12px;
-                right: 12px;
-                padding: 8px 14px 8px 10px;
-                gap: 8px;
-                border-radius: 40px;
-            }
-            .mini-player .play-btn {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
-            .mini-player .mini-progress {
-                width: 40px;
-            }
-            .mini-player .song-title {
-                font-size: 0.75rem;
-            }
-            .mini-player .song-artist {
-                font-size: 0.65rem;
-            }
-        }
+.hidden{
+    display:none;
+}
     </style>
 </head>
 <body>
-
-    <!-- Fondos glow -->
-    <div class="bg-glow glow1"></div>
-    <div class="bg-glow glow2"></div>
-    <div class="bg-glow glow3"></div>
-
-    <!-- Contenedor de corazones flotantes -->
-    <div id="hearts-container"></div>
-
-    <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-2xl bg-black/40 border-b border-white/8 px-6 md:px-10 py-4 flex justify-between items-center transition-all duration-300" id="navbar">
-        <h1 class="text-xl md:text-2xl font-bold gradient-text">
-            Para Ti ❤️
-        </h1>
-        <div class="hidden md:flex gap-8 text-zinc-300 text-sm font-medium">
-            <a href="#inicio" class="nav-link hover:text-pink-300 transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-pink-400 after:transition-all hover:after:w-full">Inicio</a>
-            <a href="#musica" class="nav-link hover:text-pink-300 transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-pink-400 after:transition-all hover:after:w-full">Canciones</a>
-            <a href="#notas" class="nav-link hover:text-pink-300 transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-pink-400 after:transition-all hover:after:w-full">Notas</a>
-            <a href="#carta" class="nav-link hover:text-pink-300 transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-pink-400 after:transition-all hover:after:w-full">Carta</a>
-        </div>
-        <!-- Menú móvil -->
-        <button class="md:hidden text-2xl text-zinc-300 hover:text-pink-300 transition-colors" id="mobile-menu-btn" aria-label="Menú">
-            ☰
+<!-- Texto cinematográfico -->
+<div id="cinematicText" class="cinematic hidden">
+    Para alguien muy especial ❤️
+</div>
+    <!-- Pantalla inicial -->
+    <div class="start-screen" id="startScreen">
+        <h1>Tengo algo bonito para ti ❤️</h1>
+        <button class="start-btn" id="startBtn">
+            Presiona aquí
         </button>
-    </nav>
-    <!-- Menú móvil desplegable -->
-    <div class="fixed top-16 left-0 w-full z-40 backdrop-blur-2xl bg-black/70 border-b border-white/10 px-6 py-4 flex flex-col gap-4 hidden md:hidden transition-all duration-300" id="mobile-menu">
-        <a href="#inicio" class="text-zinc-300 hover:text-pink-300 transition-colors py-2">Inicio</a>
-        <a href="#musica" class="text-zinc-300 hover:text-pink-300 transition-colors py-2">Canciones</a>
-        <a href="#notas" class="text-zinc-300 hover:text-pink-300 transition-colors py-2">Notas</a>
-        <a href="#carta" class="text-zinc-300 hover:text-pink-300 transition-colors py-2">Carta</a>
     </div>
 
-    <!-- HERO SECTION -->
-    <section id="inicio" class="min-h-screen flex items-center justify-center text-center px-6 relative">
-        <div class="card max-w-4xl w-full p-8 md:p-14 reveal">
-            <h1 class="text-5xl md:text-8xl font-extrabold gradient-text leading-tight">
-                Eres Mi Persona<br>Favorita 💖
-            </h1>
-            <p class="mt-8 md:mt-10 text-lg md:text-3xl text-zinc-300 leading-relaxed max-w-2xl mx-auto">
-                De todas las personas del mundo...
-                <br>
-                <span class="font-semibold text-white">tuve la suerte de encontrarte a ti.</span>
-            </p>
-            <button class="ripple-btn mt-10 px-10 py-5 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 hover:scale-110 transition-transform text-lg md:text-xl shadow-2xl font-semibold" onclick="launchConfetti()">
-                ✨ Nuestra Historia
-            </button>
-            <div class="scroll-indicator mt-8" onclick="document.getElementById('musica').scrollIntoView({behavior:'smooth'})">
-                <span class="text-3xl text-zinc-400 hover:text-pink-300 transition-colors">⌄</span>
-            </div>
-        </div>
-    </section>
+    <!-- Canvas -->
+    <canvas id="heart"></canvas>
 
-    <!-- MUSIC SECTION -->
-    <section id="musica" class="py-24 md:py-32 px-6">
-        <h2 class="text-4xl md:text-6xl font-bold text-center mb-16 md:mb-20 gradient-text reveal">
-            Canciones Que Me Recuerdan A Ti 🎵
-        </h2>
+    <!-- Música -->
+    <audio id="bgMusic" loop>
+        <source src="re.mp3" type="audio/mp3">
+    </audio>
 
-        <div class="grid md:grid-cols-3 gap-8 md:gap-10 max-w-7xl mx-auto">
-            <!-- Canción 1: Perfect -->
-            <div class="card p-6 reveal music-card" data-song-index="0">
-                <div class="h-56 md:h-72 rounded-3xl bg-gradient-to-br from-pink-400 via-rose-400 to-pink-600 flex items-center justify-center text-7xl md:text-8xl shadow-inner relative overflow-hidden">
-                    <span class="relative z-10 drop-shadow-lg">🎶</span>
-                    <div class="absolute inset-0 bg-black/20"></div>
-                </div>
-                <h3 class="text-2xl md:text-3xl font-bold mt-6">Amor</h3>
-                <p class="text-zinc-400 mt-1 text-sm md:text-base">Emmanuel Cortes</p>
-                <div class="music-bar" data-bar-index="0">
-                    <div class="music-progress" style="width: 0%;" id="progress-0"></div>
-                </div>
-                <div class="flex justify-center gap-6 mt-6 text-3xl md:text-4xl">
-                    <button class="hover:text-pink-400 transition-colors prev-btn" data-action="prev" aria-label="Anterior">⏮</button>
-                    <button class="hover:text-pink-400 transition-colors play-pause-btn text-4xl md:text-5xl" data-action="toggle" data-song-index="0" aria-label="Reproducir/Pausar">▶</button>
-                    <button class="hover:text-pink-400 transition-colors next-btn" data-action="next" aria-label="Siguiente">⏭</button>
-                </div>
-            </div>
+    <script src="animacion.js"></script>
 
-            <!-- Canción 2: Golden Hour -->
-            <div class="card p-6 reveal music-card" data-song-index="1">
-                <div class="h-56 md:h-72 rounded-3xl bg-gradient-to-br from-amber-300 via-orange-400 to-rose-500 flex items-center justify-center text-7xl md:text-8xl shadow-inner relative overflow-hidden">
-                    <span class="relative z-10 drop-shadow-lg">💖</span>
-                    <div class="absolute inset-0 bg-black/20"></div>
-                </div>
-                <h3 class="text-2xl md:text-3xl font-bold mt-6">Luces de Neon</h3>
-                <p class="text-zinc-400 mt-1 text-sm md:text-base">Nebulosas</p>
-                <div class="music-bar" data-bar-index="1">
-                    <div class="music-progress" style="width: 0%;" id="progress-1"></div>
-                </div>
-                <div class="flex justify-center gap-6 mt-6 text-3xl md:text-4xl">
-                    <button class="hover:text-pink-400 transition-colors prev-btn" data-action="prev" aria-label="Anterior">⏮</button>
-                    <button class="hover:text-pink-400 transition-colors play-pause-btn text-4xl md:text-5xl" data-action="toggle" data-song-index="1" aria-label="Reproducir/Pausar">▶</button>
-                    <button class="hover:text-pink-400 transition-colors next-btn" data-action="next" aria-label="Siguiente">⏭</button>
-                </div>
-            </div>
-
-            <!-- Canción 3: Until I Found You -->
-            <div class="card p-6 reveal music-card" data-song-index="2">
-                <div class="h-56 md:h-72 rounded-3xl bg-gradient-to-br from-purple-400 via-violet-500 to-indigo-600 flex items-center justify-center text-7xl md:text-8xl shadow-inner relative overflow-hidden">
-                    <span class="relative z-10 drop-shadow-lg">✨</span>
-                    <div class="absolute inset-0 bg-black/20"></div>
-                </div>
-                <h3 class="text-2xl md:text-3xl font-bold mt-6">ALL NIGHT LONG</h3>
-                <p class="text-zinc-400 mt-1 text-sm md:text-base">Mishaal Tamer</p>
-                <div class="music-bar" data-bar-index="2">
-                    <div class="music-progress" style="width: 0%;" id="progress-2"></div>
-                </div>
-                <div class="flex justify-center gap-6 mt-6 text-3xl md:text-4xl">
-                    <button class="hover:text-pink-400 transition-colors prev-btn" data-action="prev" aria-label="Anterior">⏮</button>
-                    <button class="hover:text-pink-400 transition-colors play-pause-btn text-4xl md:text-5xl" data-action="toggle" data-song-index="2" aria-label="Reproducir/Pausar">▶</button>
-                    <button class="hover:text-pink-400 transition-colors next-btn" data-action="next" aria-label="Siguiente">⏭</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- NOTES SECTION -->
-    <section id="notas" class="py-24 md:py-32 px-6">
-        <h2 class="text-4xl md:text-6xl font-bold text-center mb-16 md:mb-20 gradient-text reveal">
-            Lo Que Siento Por Ti 💭
-        </h2>
-        <div class="grid md:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
-            <div class="card p-8 reveal text-center">
-                <div class="text-5xl md:text-6xl">💖</div>
-                <p class="mt-6 text-xl md:text-2xl text-zinc-200 leading-relaxed italic">
-                    "Tu sonrisa arregla mis peores días."
-                </p>
-            </div>
-            <div class="card p-8 reveal text-center">
-                <div class="text-5xl md:text-6xl">✨</div>
-                <p class="mt-6 text-xl md:text-2xl text-zinc-200 leading-relaxed italic">
-                    "Eres la casualidad más bonita de mi vida."
-                </p>
-            </div>
-            <div class="card p-8 reveal text-center">
-                <div class="text-5xl md:text-6xl">🌙</div>
-                <p class="mt-6 text-xl md:text-2xl text-zinc-200 leading-relaxed italic">
-                    "Contigo todo se siente más bonito."
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- LETTER SECTION -->
-    <section id="carta" class="py-24 md:py-32 px-6 flex justify-center">
-        <div class="card max-w-4xl w-full p-10 md:p-16 text-center reveal">
-            <div class="text-6xl md:text-7xl mb-6">💌</div>
-            <h2 class="text-4xl md:text-6xl font-bold gradient-text">
-                Una Carta Para Ti
-            </h2>
-            <p class="mt-8 md:mt-10 text-lg md:text-2xl text-zinc-300 leading-relaxed max-w-2xl mx-auto">
-                Tal vez no exista una forma perfecta de explicar
-                <br>
-                todo lo que me haces sentir...
-                <br><br>
-                pero si pudiera resumirlo en una sola frase sería:
-                <br><br>
-                <span class="gradient-text text-3xl md:text-5xl font-semibold" style="font-family: 'Dancing Script', cursive;">
-                    "Eres lo más bonito que me ha pasado."
-                </span>
-            </p>
-            <button class="ripple-btn mt-10 px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 hover:scale-110 transition-transform text-lg shadow-2xl font-semibold" onclick="launchConfetti()">
-                💝 Siempre en mi corazón
-            </button>
-        </div>
-    </section>
-
-    <!-- FINAL SECTION -->
-    <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 reveal">
-        <h2 class="text-5xl md:text-8xl font-extrabold gradient-text leading-tight">
-            Gracias Por Existir ❤️
-        </h2>
-        <p class="mt-8 md:mt-10 text-lg md:text-2xl text-zinc-300 max-w-3xl leading-relaxed">
-            Si algún día alguien me preguntara
-            <br>
-            qué se siente encontrar a una persona especial...
-            <br><br>
-            <span class="font-semibold text-white">simplemente hablaría de ti.</span>
-        </p>
-        <button class="ripple-btn mt-12 px-10 py-5 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 hover:scale-110 transition-transform text-lg md:text-xl shadow-2xl font-semibold" onclick="launchConfetti()">
-            💖 Siempre Tú
-        </button>
-    </section>
-
-    <!-- Mini reproductor fijo -->
-    <div class="mini-player hidden" id="mini-player" title="Reproductor de música">
-        <button class="play-btn" id="mini-play-btn" aria-label="Reproducir/Pausar">▶</button>
-        <div class="song-info">
-            <span class="song-title" id="mini-title">Selecciona una canción</span>
-            <span class="song-artist" id="mini-artist"></span>
-        </div>
-        <div class="mini-progress">
-            <div class="mini-progress-fill" id="mini-progress-fill" style="width: 0%;"></div>
-        </div>
-    </div>
-
-    <!-- Botón scroll to top -->
-    <button class="scroll-top-btn" id="scroll-top-btn" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-        ↑
-    </button>
-
-    <!-- Elemento de audio oculto para las canciones locales -->
-    <audio id="audio-player" preload="auto"></audio>
-
-    <script>
-        const playlist = [{
-            title: 'Amor',
-            artist: 'Emmanuel Cortes',
-            src: 'amor.mp3', 
-            emoji: '🎶',
-        }, {
-            title: 'Luces de Neon',
-            artist: 'Nebulosas',
-            src: 'neon.mp3',
-            emoji: '💖',
-        }, {
-            title: 'ALL NIGHT LONG',
-            artist: 'Mishaal Tamer',
-            src: 'all.mp3',
-            emoji: '✨',
-        }];
-
-        // ==================== ELEMENTOS DEL DOM ====================
-        const audioPlayer = document.getElementById('audio-player');
-        const miniPlayer = document.getElementById('mini-player');
-        const miniPlayBtn = document.getElementById('mini-play-btn');
-        const miniTitle = document.getElementById('mini-title');
-        const miniArtist = document.getElementById('mini-artist');
-        const miniProgressFill = document.getElementById('mini-progress-fill');
-
-        let currentSongIndex = 0;
-        let isPlaying = false;
-        let progressInterval = null;
-
-        // ==================== FUNCIONES DE CONTROL ====================
-        function loadSong(index) {
-            currentSongIndex = index;
-            const song = playlist[index];
-            audioPlayer.src = song.src;
-            audioPlayer.load();
-            // Actualizar UI inmediatamente
-            updateMiniPlayerInfo();
-            resetAllProgressBars();
-            updatePlayPauseButtons(true); // forzar a ▶
-            if (isPlaying) {
-                // Si estaba reproduciendo, continuar con la nueva
-                audioPlayer.play().catch(e => console.warn('Autoplay bloqueado:', e));
-            } else {
-                // Asegurar que el estado visual sea coherente
-                isPlaying = false;
-                updatePlayPauseButtons();
-            }
-        }
-
-        function playPause() {
-            if (!audioPlayer.src || audioPlayer.src === window.location.href) {
-                // Si no hay canción cargada, cargar la primera
-                loadSong(currentSongIndex);
-            }
-            if (audioPlayer.paused) {
-                audioPlayer.play().catch(e => console.warn('Error al reproducir:', e));
-            } else {
-                audioPlayer.pause();
-            }
-        }
-
-        function playNext() {
-            const next = (currentSongIndex + 1) % playlist.length;
-            loadSong(next);
-            // Reproducir automáticamente después de cargar
-            audioPlayer.play().catch(e => console.warn('Error al reproducir siguiente:', e));
-        }
-
-        function playPrev() {
-            const prev = (currentSongIndex - 1 + playlist.length) % playlist.length;
-            loadSong(prev);
-            audioPlayer.play().catch(e => console.warn('Error al reproducir anterior:', e));
-        }
-
-        function seekTo(barIndex, fraction) {
-            if (barIndex === currentSongIndex && audioPlayer.duration) {
-                audioPlayer.currentTime = fraction * audioPlayer.duration;
-            }
-        }
-
-        // ==================== UI ====================
-        function updatePlayPauseButtons(forcePauseIcon = false) {
-            const buttons = document.querySelectorAll('.play-pause-btn');
-            buttons.forEach(btn => {
-                const idx = parseInt(btn.getAttribute('data-song-index'));
-                if (idx === currentSongIndex && isPlaying && !forcePauseIcon) {
-                    btn.textContent = '⏸';
-                } else {
-                    btn.textContent = '▶';
-                }
-            });
-            // Mini player
-            if (isPlaying && !forcePauseIcon) {
-                miniPlayBtn.textContent = '⏸';
-            } else {
-                miniPlayBtn.textContent = '▶';
-            }
-        }
-
-        function updateMiniPlayerInfo() {
-            const song = playlist[currentSongIndex];
-            miniTitle.textContent = song.title;
-            miniArtist.textContent = song.artist;
-        }
-
-        function showMiniPlayer() {
-            miniPlayer.classList.remove('hidden');
-        }
-
-        function resetAllProgressBars() {
-            for (let i = 0; i < playlist.length; i++) {
-                const progressEl = document.getElementById('progress-' + i);
-                if (progressEl) progressEl.style.width = '0%';
-            }
-            if (miniProgressFill) miniProgressFill.style.width = '0%';
-        }
-
-        function updateProgressBars() {
-            if (!audioPlayer.duration) return;
-            const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-            // Barra de la canción actual
-            const currentProgress = document.getElementById('progress-' + currentSongIndex);
-            if (currentProgress) {
-                currentProgress.style.width = percent + '%';
-            }
-            // Mini player
-            if (miniProgressFill) {
-                miniProgressFill.style.width = percent + '%';
-            }
-            // Asegurar que otras barras estén a 0
-            for (let i = 0; i < playlist.length; i++) {
-                if (i !== currentSongIndex) {
-                    const el = document.getElementById('progress-' + i);
-                    if (el && el.style.width !== '0%') el.style.width = '0%';
-                }
-            }
-        }
-
-        // ==================== EVENTOS DEL AUDIO ====================
-        audioPlayer.addEventListener('play', () => {
-            isPlaying = true;
-            updatePlayPauseButtons();
-            showMiniPlayer();
-            miniPlayBtn.textContent = '⏸';
-            startProgressUpdates();
-        });
-
-        audioPlayer.addEventListener('pause', () => {
-            isPlaying = false;
-            updatePlayPauseButtons();
-            miniPlayBtn.textContent = '▶';
-            stopProgressUpdates();
-        });
-
-        audioPlayer.addEventListener('ended', () => {
-            isPlaying = false;
-            updatePlayPauseButtons();
-            miniPlayBtn.textContent = '▶';
-            stopProgressUpdates();
-            // Pasar automáticamente a la siguiente canción
-            setTimeout(() => playNext(), 800);
-        });
-
-        audioPlayer.addEventListener('loadedmetadata', () => {
-            // Reiniciar la barra de progreso al cargar metadata
-            updateProgressBars();
-        });
-
-        audioPlayer.addEventListener('error', (e) => {
-            console.warn('Error al cargar el archivo de audio:', playlist[currentSongIndex].src);
-            alert('No se pudo reproducir: ' + playlist[currentSongIndex].title + '. Verifica que el archivo .mp3 existe en la misma carpeta.');
-            isPlaying = false;
-            updatePlayPauseButtons();
-            miniPlayBtn.textContent = '▶';
-            stopProgressUpdates();
-        });
-
-        // ==================== PROGRESO ====================
-        function startProgressUpdates() {
-            stopProgressUpdates();
-            progressInterval = setInterval(updateProgressBars, 200);
-        }
-
-        function stopProgressUpdates() {
-            if (progressInterval) {
-                clearInterval(progressInterval);
-                progressInterval = null;
-            }
-        }
-
-        // ==================== EVENTOS DE CLIC ====================
-        document.addEventListener('click', function(e) {
-            // Play/Pause en tarjetas
-            if (e.target.closest('.play-pause-btn')) {
-                const btn = e.target.closest('.play-pause-btn');
-                const idx = parseInt(btn.getAttribute('data-song-index'));
-                if (idx === currentSongIndex && audioPlayer.src && audioPlayer.src !== window.location
-                    .href) {
-                    playPause();
-                } else {
-                    loadSong(idx);
-                    audioPlayer.play().catch(err => console.warn(err));
-                }
-                return;
-            }
-            // Prev
-            if (e.target.closest('.prev-btn')) {
-                playPrev();
-                return;
-            }
-            // Next
-            if (e.target.closest('.next-btn')) {
-                playNext();
-                return;
-            }
-            // Mini player play button
-            if (e.target.closest('#mini-play-btn')) {
-                playPause();
-                return;
-            }
-            // Barra de progreso
-            if (e.target.closest('.music-bar')) {
-                const bar = e.target.closest('.music-bar');
-                const barIndex = parseInt(bar.getAttribute('data-bar-index'));
-                if (barIndex === currentSongIndex && audioPlayer.duration) {
-                    const rect = bar.getBoundingClientRect();
-                    const clickX = e.clientX - rect.left;
-                    const fraction = clickX / rect.width;
-                    seekTo(barIndex, fraction);
-                }
-                return;
-            }
-        });
-
-        // Click en mini player para ir a la sección de música
-        miniPlayer.addEventListener('click', function(e) {
-            if (e.target.closest('#mini-play-btn') || e.target.closest('.mini-progress')) return;
-            document.getElementById('musica').scrollIntoView({ behavior: 'smooth' });
-        });
-
-        // ==================== CORAZONES FLOTANTES ====================
-        function createHearts() {
-            const container = document.getElementById('hearts-container');
-            const heartEmojis = ['❤️', '💕', '💖', '💗', '💝', '🩷', '💘', '✨', '🌸'];
-            for (let i = 0; i < 30; i++) {
-                const heart = document.createElement('span');
-                heart.classList.add('heart-particle');
-                heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.fontSize = (Math.random() * 22 + 10) + 'px';
-                heart.style.animationDuration = (Math.random() * 7 + 8) + 's';
-                heart.style.animationDelay = (Math.random() * 10) + 's';
-                container.appendChild(heart);
-            }
-        }
-
-        // ==================== CONFETI ====================
-        function launchConfetti() {
-            const colors = ['#ff4da6', '#ff6b9d', '#ff8c42', '#ffbe0b', '#8b5cf6',
-                '#c084fc', '#f472b6', '#fb7185', '#fbbf24', '#a78bfa',
-                '#ffffff', '#ffd1dc'
-            ];
-            const shapes = ['❤️', '💖', '✨', '🌸', '💕', '⭐', '🎀', '💎'];
-            for (let i = 0; i < 60; i++) {
-                const piece = document.createElement('span');
-                piece.classList.add('confetti-piece');
-                piece.textContent = shapes[Math.floor(Math.random() * shapes.length)];
-                piece.style.left = Math.random() * 100 + '%';
-                piece.style.top = -(Math.random() * 30 + 10) + 'px';
-                piece.style.fontSize = (Math.random() * 24 + 14) + 'px';
-                piece.style.animationDuration = (Math.random() * 2 + 3) + 's';
-                piece.style.animationDelay = Math.random() * 0.8 + 's';
-                piece.style.color = colors[Math.floor(Math.random() * colors.length)];
-                document.body.appendChild(piece);
-                setTimeout(() => piece.remove(), 4000);
-            }
-        }
-
-        // ==================== SCROLL REVEAL ====================
-        function handleScrollReveal() {
-            const reveals = document.querySelectorAll('.reveal');
-            const windowHeight = window.innerHeight;
-            reveals.forEach(el => {
-                const top = el.getBoundingClientRect().top;
-                if (top < windowHeight * 0.85) {
-                    el.classList.add('visible');
-                }
-            });
-        }
-
-        // ==================== SCROLL TO TOP BUTTON ====================
-        function handleScrollTopBtn() {
-            const btn = document.getElementById('scroll-top-btn');
-            if (window.scrollY > 500) {
-                btn.classList.add('visible');
-            } else {
-                btn.classList.remove('visible');
-            }
-        }
-
-        // ==================== NAVBAR SCROLL EFFECT ====================
-        function handleNavbarScroll() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(5,5,8,0.85)';
-                navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.4)';
-            } else {
-                navbar.style.background = 'rgba(0,0,0,0.4)';
-                navbar.style.boxShadow = 'none';
-            }
-        }
-
-        // ==================== MOBILE MENU ====================
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-            this.textContent = menu.classList.contains('hidden') ? '☰' : '✕';
-        });
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('mobile-menu').classList.add('hidden');
-                document.getElementById('mobile-menu-btn').textContent = '☰';
-            });
-        });
-
-        // ==================== SCROLL GLOBAL ====================
-        window.addEventListener('scroll', () => {
-            handleScrollReveal();
-            handleScrollTopBtn();
-            handleNavbarScroll();
-        });
-
-        // ==================== INICIALIZACIÓN ====================
-        function init() {
-            createHearts();
-            handleScrollReveal();
-            handleScrollTopBtn();
-            handleNavbarScroll();
-            // No se carga ninguna canción automáticamente, espera interacción del usuario
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-
-        // Exponer función global
-        window.launchConfetti = launchConfetti;
-    </script>
 </body>
 </html>
