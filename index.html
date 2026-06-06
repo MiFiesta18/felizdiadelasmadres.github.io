@@ -2,127 +2,709 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Ti ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Para Ti ❤️ | Nuestra Historia de Amor</title>
+
+    <!-- Tailwind CSS + CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fuentes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Dancing+Script:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome (íconos extra) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
+        * {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        body {
+            background: #050508;
+            color: white;
+            overflow-x: hidden;
+            cursor: default;
+        }
+        /* Fondos glow animados */
+        .bg-glow {
+            position: fixed;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            filter: blur(150px);
+            z-index: -2;
+            opacity: 0.3;
+            pointer-events: none;
+            animation: breatheGlow 10s ease-in-out infinite;
+        }
+        .glow1 { background: #ff4da6; top: -250px; left: -150px; animation-delay: 0s; }
+        .glow2 { background: #8b5cf6; bottom: -250px; right: -150px; animation-delay: -5s; }
+        .glow3 { background: #f97316; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; height: 450px; animation-delay: -7s; opacity: 0.2; }
+        @keyframes breatheGlow {
+            0%,100% { transform: scale(1); opacity: 0.25; }
+            50% { transform: scale(1.3); opacity: 0.45; }
         }
 
-        body{
-            overflow:hidden;
-            background:black;
-            font-family:Arial, sans-serif;
+        /* Glassmorphism mejorado */
+        .card {
+            background: rgba(20, 20, 30, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 32px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.3);
+        }
+        .card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: rgba(255,77,166,0.5);
+            box-shadow: 0 30px 50px -15px rgba(255,77,166,0.3);
+            background: rgba(30,30,45,0.6);
         }
 
-        canvas{
-            position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            opacity:0;
-            transition:1s;
-            z-index:1;
+        /* Estrellas dinámicas */
+        #stars-container {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: twinkle random(4s, 8s) infinite;
+        }
+        @keyframes twinkle {
+            0%,100% { opacity: 0.2; transform: scale(1);}
+            50% { opacity: 1; transform: scale(1.3);}
         }
 
-        /* Pantalla inicial */
-        .start-screen{
-            position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            flex-direction:column;
-            background:linear-gradient(135deg, #000, #250012);
-            z-index:10;
+        /* Corazones flotantes mejorados */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUpLove linear forwards;
+            filter: drop-shadow(0 0 6px rgba(255,77,166,0.6));
+        }
+        @keyframes floatUpLove {
+            0% { transform: translateY(100vh) scale(0.2) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.9; }
+            85% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2) rotate(30deg); opacity: 0; }
         }
 
-        .start-screen h1{
-            color:white;
-            margin-bottom:20px;
-            font-size:2rem;
-            text-align:center;
-            padding:20px;
+        /* Línea de tiempo más atractiva */
+        .timeline {
+            position: relative;
+            max-width: 1100px;
+            margin: auto;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ff4da6, #c084fc, #8b5cf6);
+            transform: translateX(-50%);
+            border-radius: 10px;
+            box-shadow: 0 0 12px #ff4da6;
+        }
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 20px 40px;
+        }
+        .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+        .timeline-item:nth-child(even) { left: 50%; }
+        .timeline-dot {
+            position: absolute;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ff4da6;
+            box-shadow: 0 0 20px #ff4da6;
+            border: 2px solid white;
+        }
+        .timeline-item:nth-child(odd) .timeline-dot { right: -10px; }
+        .timeline-item:nth-child(even) .timeline-dot { left: -10px; }
+        @media (max-width:768px) {
+            .timeline::before { left: 20px; }
+            .timeline-item { width: 100%; left: 0 !important; text-align: left !important; padding-left: 60px; }
+            .timeline-dot { left: 10px !important; }
         }
 
-        .start-btn{
-            padding:15px 40px;
-            border:none;
-            border-radius:50px;
-            background:#ff2d75;
-            color:white;
-            font-size:1.2rem;
-            cursor:pointer;
-            transition:0.3s;
-            box-shadow:0 0 20px rgba(255,45,117,.5);
+        /* Reproductor avanzado */
+        .music-progress-bar, .mini-progress {
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .music-progress-fill, .mini-progress-fill {
+            background: linear-gradient(90deg, #ff4da6, #c084fc);
+            border-radius: 20px;
+            width: 0%;
+            height: 100%;
+            transition: width 0.05s linear;
         }
 
-        .start-btn:hover{
-            transform:scale(1.08);
+        /* Botones con ripple */
+        .ripple-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s;
         }
-        /* Texto cinematográfico */
-.cinematic{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:black;
-    color:white;
-    font-size:clamp(2rem, 5vw, 4rem);
-    font-weight:300;
-    letter-spacing:3px;
-    text-align:center;
-    padding:20px;
-    z-index:20;
-    opacity:0;
-    transition:opacity 2s ease;
-    text-shadow:
-        0 0 20px rgba(255,255,255,.4),
-        0 0 50px rgba(255,100,150,.3);
-}
+        .ripple-btn:active::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 10%, transparent 70%);
+            animation: rippleAnim 0.5s;
+        }
+        @keyframes rippleAnim {
+            from { transform: scale(0); opacity: 0.8; }
+            to { transform: scale(4); opacity: 0; }
+        }
 
-.cinematic.show{
-    opacity:1;
-}
+        /* Galería de momentos */
+        .gallery-card {
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .gallery-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 20px 30px -12px rgba(255,77,166,0.3);
+        }
 
-.hidden{
-    display:none;
-}
+        /* Scroll personalizado */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0f; }
+        ::-webkit-scrollbar-thumb { background: #ff4da6; border-radius: 10px; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.2,0.9,0.4,1.2);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .gradient-text {
+            background: linear-gradient(135deg, #ff4da6, #c084fc, #f97316, #ff4da6);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientFlow 7s infinite;
+        }
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(16px);
+            padding: 12px 24px;
+            border-radius: 60px;
+            color: white;
+            z-index: 2000;
+            border-left: 5px solid #ff4da6;
+            font-weight: 500;
+            animation: fadeToast 3s forwards;
+        }
+        @keyframes fadeToast {
+            0% { opacity: 0; bottom: 70px; }
+            15% { opacity: 1; bottom: 100px; }
+            85% { opacity: 1; bottom: 100px; }
+            100% { opacity: 0; bottom: 70px; visibility: hidden; }
+        }
+        .floating-kiss {
+            position: fixed;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 2000;
+            animation: kissFloat 1s ease-out forwards;
+        }
+        @keyframes kissFloat {
+            0% { transform: scale(0.5) translateY(0); opacity: 1; }
+            100% { transform: scale(1.5) translateY(-80px); opacity: 0; }
+        }
     </style>
 </head>
 <body>
-<!-- Texto cinematográfico -->
-<div id="cinematicText" class="cinematic hidden">
-    Para alguien muy especial ❤️
-</div>
-    <!-- Pantalla inicial -->
-    <div class="start-screen" id="startScreen">
-        <h1>Tengo algo bonito para ti ❤️</h1>
-        <button class="start-btn" id="startBtn">
-            Presiona aquí
-        </button>
+
+    <div class="bg-glow glow1"></div>
+    <div class="bg-glow glow2"></div>
+    <div class="bg-glow glow3"></div>
+    <div id="stars-container"></div>
+    <div id="hearts-container"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-2xl bg-black/40 border-b border-white/10 px-6 md:px-12 py-4 flex justify-between items-center transition-all duration-300" id="navbar">
+        <h1 class="text-xl md:text-3xl font-bold gradient-text"><i class="fas fa-heart text-pink-500"></i> Para Ti</h1>
+        <div class="hidden md:flex gap-8 text-zinc-200 font-medium">
+            <a href="#inicio" class="hover:text-pink-300 transition-all relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-pink-400 after:transition-all hover:after:w-full">Inicio</a>
+            <a href="#historia" class="hover:text-pink-300 transition-all relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-pink-400 after:transition-all hover:after:w-full">Historia</a>
+            <a href="#musica" class="hover:text-pink-300 transition-all relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-pink-400 after:transition-all hover:after:w-full">Música</a>
+            <a href="#galeria" class="hover:text-pink-300 transition-all relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-pink-400 after:transition-all hover:after:w-full">Galería</a>
+            <a href="#carta" class="hover:text-pink-300 transition-all relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-pink-400 after:transition-all hover:after:w-full">Carta</a>
+        </div>
+        <button class="md:hidden text-2xl text-white" id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+    </nav>
+    <div class="fixed top-16 left-0 w-full z-40 backdrop-blur-2xl bg-black/80 border-b border-white/10 px-6 py-4 flex flex-col gap-4 hidden md:hidden" id="mobile-menu">
+        <a href="#inicio" class="text-white py-2 hover:text-pink-300">Inicio</a>
+        <a href="#historia" class="text-white py-2 hover:text-pink-300">Historia</a>
+        <a href="#musica" class="text-white py-2 hover:text-pink-300">Música</a>
+        <a href="#galeria" class="text-white py-2 hover:text-pink-300">Galería</a>
+        <a href="#carta" class="text-white py-2 hover:text-pink-300">Carta</a>
     </div>
 
-    <!-- Canvas -->
-    <canvas id="heart"></canvas>
+    <!-- Hero -->
+    <section id="inicio" class="min-h-screen flex items-center justify-center px-6 relative">
+        <div class="card max-w-5xl w-full p-8 md:p-16 text-center reveal">
+            <h1 class="text-5xl md:text-8xl font-extrabold gradient-text leading-tight">Eres Mi <br> Persona Favorita 💖</h1>
+            <p class="mt-6 text-xl md:text-3xl text-zinc-300">De todas las personas del mundo...<br><span class="font-bold text-white">tuve la suerte de encontrarte a ti.</span></p>
+            <button class="ripple-btn mt-10 px-10 py-5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:scale-110 transition-all text-xl font-semibold shadow-xl" id="btnHistoria"><i class="fas fa-star"></i> Nuestra Historia ✨</button>
+            <div class="scroll-indicator mt-8 text-3xl text-pink-300 animate-bounce cursor-pointer" onclick="document.getElementById('historia').scrollIntoView({behavior:'smooth'})">⌄</div>
+            <div id="typing-text" class="mt-10 text-pink-200 text-xl md:text-2xl font-medium h-12"></div>
+        </div>
+    </section>
 
-    <!-- Música -->
-    <audio id="bgMusic" loop>
-        <source src="re.mp3" type="audio/mp3">
-    </audio>
+    <!-- Contador juntos -->
+    <section class="py-16 px-6 reveal">
+        <div class="card max-w-6xl mx-auto p-10 text-center">
+            <h2 class="text-4xl md:text-6xl font-bold gradient-text">Desde el 13 de Enero 2025 ❤️</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+                <div class="bg-white/5 rounded-2xl p-6"><h3 id="days" class="text-5xl font-bold gradient-text">0</h3><p>Días</p></div>
+                <div class="bg-white/5 rounded-2xl p-6"><h3 id="hours" class="text-5xl font-bold gradient-text">0</h3><p>Horas</p></div>
+                <div class="bg-white/5 rounded-2xl p-6"><h3 id="minutes" class="text-5xl font-bold gradient-text">0</h3><p>Minutos</p></div>
+                <div class="bg-white/5 rounded-2xl p-6"><h3 id="seconds" class="text-5xl font-bold gradient-text">0</h3><p>Segundos</p></div>
+            </div>
+        </div>
+    </section>
 
-    <script src="animacion.js"></script>
+    <!-- Timeline historia -->
+    <section id="historia" class="py-24 px-6 reveal">
+        <h2 class="text-5xl md:text-7xl text-center font-bold gradient-text mb-16">Nuestra Historia ❤️</h2>
+        <div class="timeline">
+            <div class="timeline-item reveal"><div class="timeline-dot"></div><div class="card p-8"><h3 class="text-3xl font-bold mb-3">✨ La excusa perfecta</h3><p class="text-zinc-300">Todo empezó por unas hojas de inglés. Pedí hablar contigo… fue el inicio de algo mágico.</p></div></div>
+            <div class="timeline-item reveal"><div class="timeline-dot"></div><div class="card p-8"><h3 class="text-3xl font-bold mb-3">📚 La certi y las conversaciones</h3><p class="text-zinc-300">De inglés pasamos a hablar de todo. Cada mensaje me atrapaba más.</p></div></div>
+            <div class="timeline-item reveal"><div class="timeline-dot"></div><div class="card p-8"><h3 class="text-3xl font-bold mb-3">💓 Cuando lo confirmé</h3><p class="text-zinc-300">Un día supe que no era solo un crush: me gustabas demasiado. Empecé a enamorarme.</p></div></div>
+            <div class="timeline-item reveal"><div class="timeline-dot"></div><div class="card p-8"><h3 class="text-3xl font-bold mb-3">💖 Mi Faty, mi todo</h3><p class="text-zinc-300">Me enamoré de tu sonrisa, tu paz, tu esencia. Gracias por hacer mi vida más bonita. ❤️</p></div></div>
+        </div>
+    </section>
 
+    <!-- Música mejorada -->
+    <section id="musica" class="py-24 px-6">
+        <h2 class="text-5xl md:text-7xl text-center font-bold gradient-text mb-16 reveal">Canciones Que Me Recuerdan A Ti 🎵</h2>
+        <div class="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
+            <!-- Canción 1 -->
+            <div class="card p-6 reveal music-card text-center" data-song-index="0">
+                <div class="h-56 rounded-3xl bg-gradient-to-br from-pink-400 to-rose-600 flex items-center justify-center text-7xl shadow-xl"><i class="fas fa-music"></i></div>
+                <h3 class="text-2xl font-bold mt-5">Amor</h3>
+                <p class="text-zinc-400">Emmanuel Cortes</p>
+                <div class="music-bar mt-4 h-2 w-full rounded-full bg-white/20 cursor-pointer" data-bar-index="0"><div class="music-progress-fill h-full rounded-full" id="progress-0" style="width:0%"></div></div>
+                <div class="flex justify-center gap-6 mt-5 text-3xl">
+                    <button class="prev-btn"><i class="fas fa-backward-step"></i></button>
+                    <button class="play-pause-btn text-5xl text-pink-300" data-song-index="0"><i class="fas fa-play"></i></button>
+                    <button class="next-btn"><i class="fas fa-forward-step"></i></button>
+                </div>
+            </div>
+            <div class="card p-6 reveal music-card text-center" data-song-index="1">
+                <div class="h-56 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-7xl"><i class="fas fa-sun"></i></div>
+                <h3 class="text-2xl font-bold mt-5">Luces de Neon</h3>
+                <p class="text-zinc-400">Nebulosas</p>
+                <div class="music-bar mt-4 h-2 w-full rounded-full bg-white/20 cursor-pointer" data-bar-index="1"><div class="music-progress-fill h-full rounded-full" id="progress-1" style="width:0%"></div></div>
+                <div class="flex justify-center gap-6 mt-5 text-3xl">
+                    <button class="prev-btn"><i class="fas fa-backward-step"></i></button>
+                    <button class="play-pause-btn text-5xl text-pink-300" data-song-index="1"><i class="fas fa-play"></i></button>
+                    <button class="next-btn"><i class="fas fa-forward-step"></i></button>
+                </div>
+            </div>
+            <div class="card p-6 reveal music-card text-center" data-song-index="2">
+                <div class="h-56 rounded-3xl bg-gradient-to-br from-purple-500 to-indigo-700 flex items-center justify-center text-7xl"><i class="fas fa-moon"></i></div>
+                <h3 class="text-2xl font-bold mt-5">ALL NIGHT LONG</h3>
+                <p class="text-zinc-400">Mishaal Tamer</p>
+                <div class="music-bar mt-4 h-2 w-full rounded-full bg-white/20 cursor-pointer" data-bar-index="2"><div class="music-progress-fill h-full rounded-full" id="progress-2" style="width:0%"></div></div>
+                <div class="flex justify-center gap-6 mt-5 text-3xl">
+                    <button class="prev-btn"><i class="fas fa-backward-step"></i></button>
+                    <button class="play-pause-btn text-5xl text-pink-300" data-song-index="2"><i class="fas fa-play"></i></button>
+                    <button class="next-btn"><i class="fas fa-forward-step"></i></button>
+                </div>
+            </div>
+            <!-- Canción 4 -->
+            <div class="card p-6 reveal music-card text-center" data-song-index="3">
+                <div class="h-56 rounded-3xl bg-gradient-to-br from-rose-500 to-pink-700 flex items-center justify-center text-7xl">
+                    ❤️
+                </div>
+                <h3 class="text-2xl font-bold mt-5">Satelites</h3>
+                <p class="text-zinc-400">Hecha por mí ❤️</p>
+
+                <div class="music-bar mt-4 h-2 w-full rounded-full bg-white/20 cursor-pointer" data-bar-index="3">
+                    <div class="music-progress-fill h-full rounded-full" id="progress-3"></div>
+                </div>
+
+                <div class="flex justify-center gap-6 mt-5 text-3xl">
+                    <button class="prev-btn"><i class="fas fa-backward-step"></i></button>
+                    <button class="play-pause-btn text-5xl text-pink-300" data-song-index="3">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="next-btn"><i class="fas fa-forward-step"></i></button>
+                </div>
+            </div>
+
+            <!-- Canción 5 -->
+            <div class="card p-6 reveal music-card text-center" data-song-index="4">
+                <div class="h-56 rounded-3xl bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center text-7xl">
+                    🎵
+                </div>
+                <h3 class="text-2xl font-bold mt-5">Sonrisa Oculta</h3>
+                <p class="text-zinc-400">Hecha por mí ❤️</p>
+
+                <div class="music-bar mt-4 h-2 w-full rounded-full bg-white/20 cursor-pointer" data-bar-index="4">
+                    <div class="music-progress-fill h-full rounded-full" id="progress-4"></div>
+                </div>
+
+                <div class="flex justify-center gap-6 mt-5 text-3xl">
+                    <button class="prev-btn"><i class="fas fa-backward-step"></i></button>
+                    <button class="play-pause-btn text-5xl text-pink-300" data-song-index="4">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="next-btn"><i class="fas fa-forward-step"></i></button>
+                </div>
+            </div>
+
+            <!-- Canción 6 -->
+            <div class="card p-6 reveal music-card text-center" data-song-index="5">
+                <div class="h-56 rounded-3xl bg-gradient-to-br from-blue-500 to-cyan-700 flex items-center justify-center text-7xl">
+                    💖
+                </div>
+                <h3 class="text-2xl font-bold mt-5">En el retrovisor</h3>
+                <p class="text-zinc-400">Hecha por mí ❤️</p>
+
+                <div class="music-bar mt-4 h-2 w-full rounded-full bg-white/20 cursor-pointer" data-bar-index="5">
+                    <div class="music-progress-fill h-full rounded-full" id="progress-5"></div>
+                </div>
+
+                <div class="flex justify-center gap-6 mt-5 text-3xl">
+                    <button class="prev-btn"><i class="fas fa-backward-step"></i></button>
+                    <button class="play-pause-btn text-5xl text-pink-300" data-song-index="5">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="next-btn"><i class="fas fa-forward-step"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Canción 7 -->
+            <div class="card p-6 reveal music-card text-center" data-song-index="6">
+                <div class="h-56 rounded-3xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-7xl">
+                    💌
+                </div>
+                <h3 class="text-2xl font-bold mt-5">Tu</h3>
+                <p class="text-zinc-400">Hecha por mí ❤️</p>
+
+                <div class="music-bar mt-4 h-2 w-full rounded-full bg-white/20 cursor-pointer" data-bar-index="6">
+                    <div class="music-progress-fill h-full rounded-full" id="progress-6"></div>
+                </div>
+
+                <div class="flex justify-center gap-6 mt-5 text-3xl">
+                    <button class="prev-btn"><i class="fas fa-backward-step"></i></button>
+                    <button class="play-pause-btn text-5xl text-pink-300" data-song-index="6">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="next-btn"><i class="fas fa-forward-step"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería de momentos (nueva) -->
+    <section id="galeria" class="py-24 px-6 reveal">
+        <h2 class="text-5xl md:text-7xl text-center font-bold gradient-text mb-12">✨ Momentos Mágicos ✨</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div class="gallery-card card p-6 text-center hover:scale-105"><i class="fas fa-smile-wink text-6xl text-pink-400"></i><p class="mt-3 font-bold">Tu sonrisa</p><p class="text-sm text-zinc-400">Ilumina mis días</p></div>
+            <div class="gallery-card card p-6 text-center hover:scale-105"><i class="fas fa-hand-holding-heart text-6xl text-red-400"></i><p class="mt-3 font-bold">Abrazos</p><p class="text-sm text-zinc-400">Mi lugar seguro</p></div>
+            <div class="gallery-card card p-6 text-center hover:scale-105"><i class="fas fa-mug-hot text-6xl text-amber-300"></i><p class="mt-3 font-bold">Charlas</p><p class="text-sm text-zinc-400">Hasta las 3 am</p></div>
+            <div class="gallery-card card p-6 text-center hover:scale-105"><i class="fas fa-cloud-moon text-6xl text-indigo-300"></i><p class="mt-3 font-bold">Estrellas</p><p class="text-sm text-zinc-400">Mirando el cielo juntos</p></div>
+            <div class="gallery-card card p-6 text-center hover:scale-105"><i class="fas fa-music text-6xl text-purple-400"></i><p class="mt-3 font-bold">Canciones</p><p class="text-sm text-zinc-400">Que nos unen</p></div>
+            <div class="gallery-card card p-6 text-center hover:scale-105"><i class="fas fa-kiss-wink-heart text-6xl text-pink-500"></i><p class="mt-3 font-bold">Promesas</p><p class="text-sm text-zinc-400">Futuro juntos</p></div>
+        </div>
+    </section>
+
+   <!-- Carta + Botón de besos -->
+    <section id="carta" class="py-20 px-6 flex justify-center">
+        <div class="card max-w-4xl w-full p-10 md:p-16 text-center reveal relative">
+            <i class="fas fa-envelope-open-text text-6xl text-pink-400 mb-4"></i>
+            <h2 class="text-4xl md:text-6xl font-bold gradient-text">Una Carta Para Ti</h2>
+            <p class="mt-8 text-lg md:text-2xl text-zinc-200 leading-relaxed">
+                Querida Faty ❤️
+                <br><br>
+                A veces me pongo a pensar en todo
+                lo que ha pasado entre nosotros,
+                y todavía me cuesta creer
+                que algo tan bonito comenzara
+                gracias a unas hojas de inglés.
+                <br><br>
+                Qué loco pensar que una pequeña excusa
+                terminó convirtiéndose
+                en una de las mejores cosas
+                que me han pasado.
+                <br><br>
+                Al principio quizá fue solo una atracción,
+                algo que no entendía del todo,
+                pero hubo un momento
+                donde lo confirmé por completo:
+                me gustabas de verdad.
+                <br><br>
+                Y poco a poco,
+                conversación tras conversación,
+                risa tras risa,
+                silencio tras silencio...
+                terminé enamorándome de ti.
+                <br><br>
+                Me enamoré de tu sonrisa,
+                de tu tranquilidad,
+                de tu forma de ser,
+                de tu sinceridad,
+                de tu curiosidad por aprender
+                y hasta de esas pequeñas cosas
+                que probablemente ni tú notas,
+                pero que yo adoro.
+                <br><br>
+                Gracias por quedarte.
+                Gracias por confiar en mí.
+                Gracias por ser mi novia ❤️
+                <br><br>
+                No sé qué vaya a pasar en el futuro,
+                pero sí sé algo:
+                mientras te tenga conmigo,
+                voy a seguir eligiéndote
+                todos los días.
+                <br><br>
+                <span class="gradient-text text-3xl md:text-5xl font-semibold" style="font-family:'Dancing Script', cursive;">
+                    Te amo muchísimo, Faty ❤️
+                </span>
+            </p>
+            <div class="flex flex-wrap gap-5 justify-center mt-10">
+                <button class="ripple-btn px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 hover:scale-110 transition-all font-bold shadow-xl" id="confettiBtn"><i class="fas fa-heart"></i> Siempre en mi corazón</button>
+                <button class="ripple-btn px-8 py-4 rounded-full bg-white/10 border border-pink-400 hover:bg-pink-500/20 transition-all font-bold" id="kissBtn"><i class="fas fa-kiss"></i> Enviar un beso 💋</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 text-center text-zinc-500 border-t border-white/10">
+        <p>Hecho con <i class="fas fa-heart text-pink-500"></i> para ti, Faty. Cada día te elijo más.</p>
+        <p class="text-sm mt-2">✨ 27 de Mayo, un nuevo comienzo ✨</p>
+    </footer>
+
+    <!-- Mini reproductor -->
+    <div class="mini-player hidden fixed bottom-5 right-5 z-[100] bg-black/70 backdrop-blur-2xl rounded-full px-4 py-2 flex items-center gap-3 shadow-2xl border border-white/20" id="mini-player">
+        <button id="mini-play-btn" class="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center"><i class="fas fa-play text-white"></i></button>
+        <div class="flex flex-col"><span id="mini-title" class="text-sm font-semibold">Canción</span><span id="mini-artist" class="text-xs text-zinc-400">Artista</span></div>
+        <div class="w-16 h-1.5 bg-white/20 rounded-full overflow-hidden cursor-pointer"><div id="mini-progress-fill" class="h-full bg-gradient-to-r from-pink-400 to-purple-500" style="width:0%"></div></div>
+    </div>
+
+    <button class="fixed bottom-5 left-5 z-50 w-10 h-10 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white hidden" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+    <audio id="audio-player" preload="auto"></audio>
+
+    <script>
+        // Playlist
+        const playlist = [
+            { title: 'Amor', artist: 'Emmanuel Cortes', src: 'amor.mp3' },
+            { title: 'Luces de Neon', artist: 'Nebulosas', src: 'neon.mp3' },
+            { title: 'ALL NIGHT LONG', artist: 'Mishaal Tamer', src: 'all.mp3' },
+            { title: 'Satelites', artist: 'Yo', src: 'sat.mp3' },
+            { title: 'Sonrisa Oculta', artist: 'Yo', src: 'sonr.mp3' },
+            { title: 'En el retrovisor', artist: 'Yo', src: 'ret.mp3' },
+            { title: 'Tu', artist: 'Yo', src: 'tu.mp3' }
+            
+        ];
+        let currentSongIndex = 0, isPlaying = false, progressInterval = null;
+        const audio = document.getElementById('audio-player');
+        const miniPlayer = document.getElementById('mini-player');
+        const miniPlayBtn = document.getElementById('mini-play-btn');
+        const miniTitle = document.getElementById('mini-title');
+        const miniArtist = document.getElementById('mini-artist');
+        const miniProgressFill = document.getElementById('mini-progress-fill');
+
+        function showToast(msg) {
+            let toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `<i class="fas fa-heart text-pink-400 mr-2"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function loadSong(index) {
+            currentSongIndex = index;
+            const song = playlist[index];
+            audio.src = song.src;
+            audio.load();
+            updateMiniInfo();
+            resetProgressBars();
+            updatePlayBtnsIcon();
+        }
+        function updateMiniInfo() { miniTitle.innerText = playlist[currentSongIndex].title; miniArtist.innerText = playlist[currentSongIndex].artist; }
+        function resetProgressBars() {  for(let i=0; i<playlist.length; i++) { document.getElementById(`progress-${i}`).style.width='0%'; } miniProgressFill.style.width='0%'; }
+        function updatePlayBtnsIcon() {
+            document.querySelectorAll('.play-pause-btn').forEach(btn => { let idx = parseInt(btn.dataset.songIndex); btn.innerHTML = (idx===currentSongIndex && isPlaying) ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>'; });
+            miniPlayBtn.innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+        }
+        function playPause() {
+            if (!audio.src || audio.src === window.location.href) loadSong(currentSongIndex);
+            if (audio.paused) { audio.play().catch(e=>{ showToast('⚠️ No se encontró el archivo de música, pero el sentimiento sigue ❤️'); }); } else { audio.pause(); }
+        }
+        function playNext() {
+            loadSong((currentSongIndex + 1) % playlist.length);
+            audio.play().catch(e=>{});
+        }
+
+        function playPrev() {
+            loadSong((currentSongIndex - 1 + playlist.length) % playlist.length);
+            audio.play().catch(e=>{});
+        }
+        function updateProgress() {
+            if(audio.duration) {
+                let percent = (audio.currentTime/audio.duration)*100;
+                document.getElementById(`progress-${currentSongIndex}`).style.width = percent+'%';
+                miniProgressFill.style.width = percent+'%';
+            }
+        }
+        audio.addEventListener('play',()=>{ isPlaying=true; updatePlayBtnsIcon(); startProgress(); showMiniPlayer(); });
+        audio.addEventListener('pause',()=>{ isPlaying=false; updatePlayBtnsIcon(); stopProgress(); });
+        audio.addEventListener('ended',()=>{ playNext(); });
+        audio.addEventListener('error',()=>{ showToast(`🎵 No se pudo reproducir "${playlist[currentSongIndex].title}", pero la canción vive en mi corazón.`); isPlaying=false; updatePlayBtnsIcon(); });
+        function startProgress(){ if(progressInterval) clearInterval(progressInterval); progressInterval = setInterval(updateProgress,200); }
+        function stopProgress(){ if(progressInterval) clearInterval(progressInterval); progressInterval=null; }
+        function showMiniPlayer(){ miniPlayer.classList.remove('hidden'); }
+
+        // Event listeners
+        document.querySelectorAll('.play-pause-btn').forEach(btn => {
+            btn.addEventListener('click',(e)=>{
+                let idx = parseInt(btn.dataset.songIndex);
+                if(idx === currentSongIndex && audio.src) playPause();
+                else { loadSong(idx); audio.play().catch(e=>{}); }
+            });
+        });
+        document.querySelectorAll('.prev-btn').forEach(()=> playPrev());
+        document.querySelectorAll('.next-btn').forEach(()=> playNext());
+        document.querySelectorAll('.music-bar').forEach(bar => {
+            bar.addEventListener('click',(e)=>{
+                let idx = parseInt(bar.dataset.barIndex);
+                if(idx === currentSongIndex && audio.duration){
+                    let rect = bar.getBoundingClientRect(), clickX = e.clientX - rect.left;
+                    audio.currentTime = (clickX/rect.width)*audio.duration;
+                }
+            });
+        });
+        miniPlayBtn.addEventListener('click',()=> playPause());
+        miniPlayer.addEventListener('click',(e)=>{ if(e.target === miniPlayer || e.target.closest('.mini-player') && !e.target.closest('#mini-play-btn')) document.getElementById('musica').scrollIntoView({behavior:'smooth'});});
+
+        // Corazones flotantes + estrellas
+        function createStars(){
+            const starContainer = document.getElementById('stars-container');
+            for(let i=0;i<200;i++){ let s=document.createElement('span'); s.classList.add('star'); let size=Math.random()*3; s.style.width=size+'px';s.style.height=size+'px';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%'; s.style.animationDuration=(Math.random()*3+2)+'s'; starContainer.appendChild(s);}
+        }
+        function createHearts(){
+            const container = document.getElementById('hearts-container');
+            setInterval(()=>{
+                let heart = document.createElement('span');
+                heart.classList.add('heart-particle');
+                heart.innerHTML = ['❤️','💖','💕','💗','🌸','✨','🫶'][Math.floor(Math.random()*7)];
+                heart.style.left = Math.random()*100+'%';
+                heart.style.fontSize = (Math.random()*22+12)+'px';
+                heart.style.animationDuration = (Math.random()*6+5)+'s';
+                heart.style.animationDelay = '0s';
+                container.appendChild(heart);
+                setTimeout(()=>heart.remove(), 7000);
+            }, 400);
+        }
+
+        // Contador de relación
+        function updateCounter(){
+            let start = new Date('2025-01-13T00:00:00');
+            let now = new Date();
+            let diff = now-start;
+            document.getElementById('days').innerText = Math.floor(diff/(1000*60*60*24));
+            document.getElementById('hours').innerText = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+            document.getElementById('minutes').innerText = Math.floor((diff%(1000*60*60))/(1000*60));
+            document.getElementById('seconds').innerText = Math.floor((diff%(1000*60))/1000);
+        }
+        setInterval(updateCounter,1000);
+        updateCounter();
+
+        // Maquina de escribir mejorada
+        const phrases = ['Todo empezó con unas hojas de inglés ❤️', 'Sin querer, te convertiste en mi lugar favorito', 'Gracias por existir, Faty', 'De todas las casualidades... tú fuiste mi favorita', 'Te sigo eligiendo todos los días ❤️'];
+        let phraseIdx=0, charIdx=0, typingElem=document.getElementById('typing-text');
+        function typeWriter(){
+            if(!typingElem) return;
+            let current = phrases[phraseIdx];
+            typingElem.innerText = current.substring(0,charIdx);
+            charIdx++;
+            if(charIdx > current.length){ setTimeout(()=>{ charIdx=0; phraseIdx=(phraseIdx+1)%phrases.length; },2000); }
+        }
+        setInterval(typeWriter,100);
+
+        // Confeti + besos voladores
+        function launchConfetti(){
+            for(let i=0;i<80;i++){
+                let conf = document.createElement('span');
+                conf.className = 'confetti-piece';
+                conf.innerHTML = ['❤️','💖','✨','🌸','🎀','⭐','💕'][Math.floor(Math.random()*7)];
+                conf.style.position='fixed'; conf.style.left=Math.random()*100+'%'; conf.style.top='-20px'; conf.style.fontSize=(Math.random()*24+12)+'px'; conf.style.pointerEvents='none'; conf.style.zIndex=9999; conf.style.animation='confettiFall 2.5s linear forwards';
+                document.body.appendChild(conf);
+                setTimeout(()=>conf.remove(),2500);
+            }
+            showToast('💖 ¡Te amo muchísimo! 💖');
+        }
+        function sendKiss(){
+            for(let i=0;i<15;i++){
+                let kiss = document.createElement('div');
+                kiss.innerHTML = '💋';
+                kiss.classList.add('floating-kiss');
+                kiss.style.left = Math.random() * window.innerWidth + 'px';
+                kiss.style.bottom = '20px';
+                kiss.style.fontSize = (Math.random() * 28 + 18) + 'px';
+                document.body.appendChild(kiss);
+                setTimeout(()=>kiss.remove(), 1000);
+            }
+            showToast('💋 ¡Besito enviado! 💋');
+        }
+        window.launchConfetti = launchConfetti;
+        document.getElementById('confettiBtn')?.addEventListener('click', launchConfetti);
+        document.getElementById('kissBtn')?.addEventListener('click', sendKiss);
+        document.getElementById('btnHistoria')?.addEventListener('click', ()=>{ launchConfetti(); document.getElementById('historia').scrollIntoView({behavior:'smooth'}); });
+
+        // Scroll reveal + top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll',()=>{
+            document.querySelectorAll('.reveal').forEach(el=>{ if(el.getBoundingClientRect().top<window.innerHeight*0.85) el.classList.add('visible');});
+            if(window.scrollY>600) scrollTopBtn.classList.remove('hidden'); else scrollTopBtn.classList.add('hidden');
+        });
+        scrollTopBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+        document.getElementById('mobile-menu-btn').onclick = ()=>{
+            let menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            document.getElementById('mobile-menu-btn').innerHTML = menu.classList.contains('hidden') ? '<i class="fas fa-bars"></i>' : '<i class="fas fa-times"></i>';
+        };
+        document.querySelectorAll('#mobile-menu a').forEach(a=>a.addEventListener('click',()=>{ document.getElementById('mobile-menu').classList.add('hidden'); document.getElementById('mobile-menu-btn').innerHTML='<i class="fas fa-bars"></i>'; }));
+        createStars();
+        createHearts();
+        document.querySelectorAll('.reveal').forEach(el=>{ if(el.getBoundingClientRect().top<window.innerHeight*0.85) el.classList.add('visible');});
+        const styleConfetti = document.createElement('style');
+        styleConfetti.textContent = `.confetti-piece { position:fixed; pointer-events:none; z-index:9999; animation: confettiFall 2.5s linear forwards; } @keyframes confettiFall { 0% { transform: translateY(-10vh) rotate(0deg); opacity:1; } 100% { transform: translateY(110vh) rotate(720deg); opacity:0; } }`;
+        document.head.appendChild(styleConfetti);
+    </script>
 </body>
 </html>
